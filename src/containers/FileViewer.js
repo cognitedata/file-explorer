@@ -14,29 +14,35 @@ class FileViewer extends React.Component {
     if (this.props.files.byId[this.props.fileId] == null) {
       this.props.doFetchFile(this.props.fileId, this.props.client);
     }
-
-    setInterval(this.updateDownloadUrl, 25000);
-    this.updateDownloadUrl();
   }
 
   componentDidUpdate(prevProps) {}
 
-  updateDownloadUrl = async () => {
+  getDownloadUrl = async () => {
     const links = await this.props.client.files.getDownloadUrls([
       { id: this.props.fileId },
     ]);
 
-    if (links.length > 0) {
-      this.setState({ downloadLink: links[0].downloadUrl });
+    if (links.length === 0) {
+      return null;
     }
+
+    return links[0].downloadUrl;
   };
 
   renderDownloadLink() {
-    if (this.state.downloadLink) {
-      return <Button href={this.state.downloadLink}>Download</Button>;
-    }
-
-    return null;
+    return (
+      <Button
+        onClick={async () => {
+          const url = await this.getDownloadUrl();
+          if (url) {
+            window.open(url);
+          }
+        }}
+      >
+        Download
+      </Button>
+    );
   }
 
   render = () => {
