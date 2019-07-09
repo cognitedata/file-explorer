@@ -31,7 +31,6 @@ class Main extends React.Component {
   };
 
   onUploadSuccess = fileId => {
-    console.log('Got it');
     const { match, history } = this.props;
     history.push({
       pathname: `${match.url}/files/${fileId}`,
