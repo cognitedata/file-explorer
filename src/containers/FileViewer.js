@@ -16,7 +16,7 @@ class FileViewer extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {}
+  componentDidUpdate() {}
 
   getDownloadUrl = async () => {
     const links = await this.props.client.files.getDownloadUrls([

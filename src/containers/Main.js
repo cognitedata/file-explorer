@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Switch } from 'antd';
+import { Layout } from 'antd';
 import { Route } from 'react-router-dom';
 import { CogniteClient } from '@cognite/sdk';
 import FileUploader from '../components/FileUploader';
@@ -8,7 +8,7 @@ import FileViewer from './FileViewer';
 import Loader from '../components/Loader';
 
 // 13FV1234 is useful asset
-const { Content, Header, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 class Main extends React.Component {
   state = {
@@ -83,6 +83,9 @@ class Main extends React.Component {
 Main.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      tenant: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
