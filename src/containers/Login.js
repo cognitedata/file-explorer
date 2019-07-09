@@ -22,6 +22,7 @@ const Login = ({ onTenantSelected }) => (
     <TenantSelectorContainer>
       <TenantSelector
         title="Cognite File Explorer"
+        initialTenant="cognite"
         onTenantSelected={onTenantSelected}
         placeholder=""
       />
