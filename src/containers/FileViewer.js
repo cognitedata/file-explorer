@@ -113,7 +113,7 @@ class FileViewer extends React.Component {
     return (
       <List
         header={<b>{file.name}</b>}
-        footer={this.renderDownloadLink()}
+        footer={file.uploaded && this.renderDownloadLink()}
         bordered
         dataSource={data}
         renderItem={item => item}
