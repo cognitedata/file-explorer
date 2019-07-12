@@ -12,12 +12,14 @@ class FileViewer extends React.Component {
   state = {};
 
   componentDidMount() {
-    if (this.props.files.byId[this.props.fileId] == null) {
-      this.props.fetchFile(this.props.fileId, this.props.client);
-    }
+    this.fetchFileIfMissing();
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate(prevProps) {
+    if (prevProps.fileId !== this.props.fileId) {
+      this.fetchFileIfMissing();
+    }
+  }
 
   getDownloadUrl = async () => {
     const links = await this.props.client.files.getDownloadUrls([
@@ -30,6 +32,12 @@ class FileViewer extends React.Component {
 
     return links[0].downloadUrl;
   };
+
+  fetchFileIfMissing() {
+    if (this.props.files.byId[this.props.fileId] == null) {
+      this.props.fetchFile(this.props.fileId, this.props.client);
+    }
+  }
 
   renderDownloadLink() {
     return (
