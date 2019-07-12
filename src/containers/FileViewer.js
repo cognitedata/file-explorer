@@ -1,3 +1,4 @@
+import mixpanel from 'mixpanel-browser';
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -19,9 +20,27 @@ class FileViewer extends React.Component {
     if (prevProps.fileId !== this.props.fileId) {
       this.fetchFileIfMissing();
     }
+    if (
+      prevProps.files.byId[this.props.fileId] !==
+      this.props.files.byId[this.props.fileId]
+    ) {
+      const file = this.props.files.byId[this.props.fileId];
+      mixpanel.track('File.view', {
+        fileName: file.name,
+        fileId: file.id,
+        fileType: file.type,
+      });
+    }
   }
 
   getDownloadUrl = async () => {
+    const file = this.props.files.byId[this.props.fileId];
+    mixpanel.track('File.download', {
+      fileName: file.name,
+      fileId: file.id,
+      fileType: file.type,
+    });
+
     const links = await this.props.client.files.getDownloadUrls([
       { id: this.props.fileId },
     ]);

@@ -1,3 +1,4 @@
+import mixpanel from 'mixpanel-browser';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { message, Upload, Icon } from 'antd';
@@ -25,6 +26,8 @@ const uploadFile = async (request, client, onUploadSuccess) => {
     // Do something with the file
     // E.g. Send it to the cloud
     try {
+      const uploadTrackingName = 'File.upload';
+      mixpanel.time_event(uploadTrackingName);
       const response = await client.files.upload(
         {
           name: file.name,
@@ -37,10 +40,22 @@ const uploadFile = async (request, client, onUploadSuccess) => {
       );
 
       const fileId = response.id;
+      mixpanel.track(uploadTrackingName, {
+        fileId,
+        fileName: file.name,
+        fileType: file.type,
+        fileSize: file.size,
+      });
       onUploadSuccess(fileId);
       request.onSuccess();
-    } catch (ex) {
-      message.error('Could not upload file');
+    } catch (error) {
+      mixpanel.track('File.failedUpload', {
+        fileName: file.name,
+        fileType: file.type,
+        fileSize: file.size,
+        errorName: error.name,
+        errorMessage: error.message,
+      });
       request.onError();
     }
   };
