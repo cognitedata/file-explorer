@@ -7,7 +7,6 @@ import FileUploader from '../components/FileUploader';
 import FileViewer from './FileViewer';
 import Loader from '../components/Loader';
 
-// 13FV1234 is useful asset
 const { Content, Sider } = Layout;
 
 class Main extends React.Component {
