@@ -1,4 +1,5 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CogniteClient } from '@cognite/sdk';
@@ -12,7 +13,7 @@ class FileViewer extends React.Component {
 
   componentDidMount() {
     if (this.props.files.byId[this.props.fileId] == null) {
-      this.props.doFetchFile(this.props.fileId, this.props.client);
+      this.props.fetchFile(this.props.fileId, this.props.client);
     }
   }
 
@@ -46,7 +47,12 @@ class FileViewer extends React.Component {
   }
 
   render = () => {
-    const file = this.props.files.byId[this.props.fileId];
+    const { files } = this.props;
+    if (files.notFound) {
+      return <h2 style={{ textAlign: 'center' }}>File not found.</h2>;
+    }
+
+    const file = files.byId[this.props.fileId];
     if (file == null) {
       return <Loader />;
     }
@@ -75,7 +81,7 @@ class FileViewer extends React.Component {
 }
 
 FileViewer.propTypes = {
-  doFetchFile: PropTypes.func.isRequired,
+  fetchFile: PropTypes.func.isRequired,
   client: PropTypes.instanceOf(CogniteClient).isRequired,
   fileId: PropTypes.number.isRequired,
   files: Files.isRequired,
@@ -87,9 +93,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  doFetchFile: (...args) => dispatch(fetchFile(...args)),
-});
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchFile }, dispatch);
+}
 
 export default connect(
   mapStateToProps,
