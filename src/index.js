@@ -1,3 +1,4 @@
+import mixpanel from 'mixpanel-browser';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -6,6 +7,8 @@ import Routes from './routes';
 import 'antd/dist/antd.css';
 import './styles/globalStyles.css';
 import * as serviceWorker from './utils/serviceWorker';
+
+mixpanel.init('2a40df4352a81a862f87ad554b9ff7a2');
 
 render(
   <Provider store={store}>

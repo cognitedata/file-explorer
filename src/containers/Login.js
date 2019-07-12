@@ -1,3 +1,4 @@
+import mixpanel from 'mixpanel-browser';
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -35,6 +36,9 @@ Login.propTypes = {
 
 const mapStateToProps = (_, ownProps) => {
   const onTenantSelected = tenant => {
+    mixpanel.track('Login.selectedTenant', {
+      tenant,
+    });
     ownProps.history.push(`/${tenant}`);
   };
   return { onTenantSelected };
