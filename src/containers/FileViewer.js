@@ -25,7 +25,9 @@ class FileViewer extends React.Component {
       this.props.files.byId[this.props.fileId]
     ) {
       const file = this.props.files.byId[this.props.fileId];
+
       mixpanel.track('File.view', {
+        project: this.props.client.project,
         fileName: file.name,
         fileId: file.id,
         fileType: file.type,
@@ -36,6 +38,7 @@ class FileViewer extends React.Component {
   getDownloadUrl = async () => {
     const file = this.props.files.byId[this.props.fileId];
     mixpanel.track('File.download', {
+      project: this.props.client.project,
       fileName: file.name,
       fileId: file.id,
       fileType: file.type,

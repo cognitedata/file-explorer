@@ -41,6 +41,7 @@ const uploadFile = async (request, client, onUploadSuccess) => {
 
       const fileId = response.id;
       mixpanel.track(uploadTrackingName, {
+        project: client.project,
         fileId,
         fileName: file.name,
         fileType: file.type,
@@ -50,6 +51,7 @@ const uploadFile = async (request, client, onUploadSuccess) => {
       request.onSuccess();
     } catch (error) {
       mixpanel.track('File.failedUpload', {
+        project: client.project,
         fileName: file.name,
         fileType: file.type,
         fileSize: file.size,
