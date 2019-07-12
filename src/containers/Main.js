@@ -48,14 +48,17 @@ class Main extends React.Component {
               style={{
                 overflow: 'auto',
                 height: '100vh',
+                backgroundColor: 'white',
               }}
               width={250}
             >
               {this.state.client && (
-                <FileUploader
-                  client={this.state.client}
-                  onUploadSuccess={this.onUploadSuccess}
-                />
+                <div style={{ height: 250 }}>
+                  <FileUploader
+                    client={this.state.client}
+                    onUploadSuccess={this.onUploadSuccess}
+                  />
+                </div>
               )}
             </Sider>
             <Content>
