@@ -76,6 +76,21 @@ class FileViewer extends React.Component {
       <List.Item>Uploaded: {file.uploaded ? 'Yes' : 'No'}</List.Item>,
     ];
 
+    const { previewData } = files;
+    if (previewData) {
+      data.push(
+        <List.Item>
+          Preview:
+          <br />
+          <img
+            alt="Preview"
+            width={512}
+            src={`data:image/png;base64,${previewData}`}
+          />
+        </List.Item>
+      );
+    }
+
     return (
       <List
         header={<b>{file.name}</b>}
