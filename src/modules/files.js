@@ -110,7 +110,11 @@ export function fetchFile(fileId, client) {
       }
 
       const file = result[0];
-      if (file.uploaded && file.mimeType.startsWith('image/')) {
+      if (
+        file.uploaded &&
+        file.mimeType &&
+        file.mimeType.startsWith('image/')
+      ) {
         dispatch(fetchPreview(fileId, client));
       }
       const items = arrayToObjectById(result);

@@ -31,7 +31,7 @@ const uploadFile = async (request, client, onUploadSuccess) => {
       const response = await client.files.upload(
         {
           name: file.name,
-          mimeType: file.type,
+          mimeType: file.type === '' ? undefined : file.type,
           source: 'Cognite File Explorer',
         },
         e.target.result,
